@@ -20,7 +20,7 @@ def mostrar_letras_acertadas(letras_acertadas):
         print(letra, end=" ")
     print("")
 
-def jogar_forca():
+def jogar():
     print("\n=== ESCOLHA O TEMA ===")
     print("1 - Guardiões da Galáxia")
     print("2 - League of Legends")
@@ -34,21 +34,21 @@ def jogar_forca():
     palavra = random.choice(palavras).upper()
     letras_acertadas = []
     for letra in palavra:
-        letras_acertadas.append("_")
+        letras_acertadas.append("*")
     
     acertou = False
-    erros = 0          
-    max_erros = 6     
+    enforcou = False
+    erros = 0
+    max_erros = 6
     
-    while not acertou and erros < max_erros:
+    while not acertou and not enforcou:
         mostrar_letras_acertadas(letras_acertadas)
         chute = input("Digite uma letra: ")
-        chute = chute.upper()
         
         acertou_letra = False
         indice = 0
         for letra in palavra:
-            if chute == letra:
+            if chute.upper() == letra:
                 letras_acertadas[indice] = letra
                 acertou_letra = True
             indice = indice + 1
@@ -57,59 +57,14 @@ def jogar_forca():
             erros = erros + 1
             print("Letra errada!")
         
-        if "_" not in letras_acertadas:
+        if erros == max_erros:
+            enforcou = True
+        if letras_acertadas.count("*") == 0:
             acertou = True
     
     mostrar_letras_acertadas(letras_acertadas)
     if acertou:
-        print("Parabéns, você acertou a palavra!")
+        print("Parabéns, você acertou a palavra secreta! <3")
     else:
         print("Você perdeu :(")
         print("A palavra era: ", palavra)
-
-def jogar_adivinhacao():
-    print("\n=== ESCOLHA O TEMA ===")
-    print("1 - Guardiões da Galáxia")
-    print("2 - League of Legends")
-    print("3 - Sanrio")
-    tema = int(input("Digite o número do tema: "))
-    
-    palavras = carregar_palavras(tema)
-    if not palavras:
-        return
-    
-    palavra = random.choice(palavras).upper()
-    print("Tente adivinhar a palavra secreta!")
-    
-    tentativas = 1
-    limite = 3
-    while tentativas <= limite:
-        chute = input(f"Tentativa {tentativas}/{limite} - Digite a palavra: ")
-        chute = chute.upper()
-        if chute == palavra:
-            print("Parabéns, você acertou a palavra secreta!")
-            return
-        else:
-            print("Errado!")
-        tentativas = tentativas + 1
-    
-    print("Você perdeu :(")
-    print("A palavra era: ", palavra)
-
-print("Bem-vindo ao jogo!")
-while True:
-    print("\n=== MENU DE JOGOS ===")
-    print("1 - Jogar Forca")
-    print("2 - Jogar Adivinhação")
-    print("3 - Sair")
-    opcao = input("Escolha uma opção: ")
-    
-    if opcao == "1":
-        jogar_forca()
-    elif opcao == "2":
-        jogar_adivinhacao()
-    elif opcao == "3":
-        print("Até logo! Obrigado por jogar :)")
-        break
-    else:
-        print("Opção inválida, tente novamente.")
